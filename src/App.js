@@ -6,8 +6,9 @@ class App extends Component {
   componentDidMount() {
     Box();
   }
+
   render() {
-    return <div ref="content" />;
+    return <div />;
   }
 }
 

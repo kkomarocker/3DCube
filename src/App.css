@@ -5,3 +5,10 @@
   height: 100vh;
   width: 100vw;
 }
+
+.name {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  margin: auto;
+}

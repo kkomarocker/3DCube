@@ -14,12 +14,12 @@ import {
 export const Box = () => {
   const scene = new Scene();
   const camera = new PerspectiveCamera(
-    50,
+    90,
     window.innerWidth / window.innerHeight,
-    0.1,
-    1000
+    10,
+    2000
   );
-  const renderer = new WebGLRenderer();
+  const renderer = new WebGLRenderer({ antialias: true });
 
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.shadowMap.enabled = true;
@@ -27,9 +27,8 @@ export const Box = () => {
 
   document.body.appendChild(renderer.domElement);
 
-  const material = new MeshPhongMaterial({ color: 0x3333ff });
   const ambientLight = new AmbientLight(0xffffff, 0.4);
-  const light = new PointLight(0xffffff, 1.2, 25);
+  const light = new PointLight(0xffffff, 2.5, 40);
 
   const group = new Group();
 
@@ -38,23 +37,52 @@ export const Box = () => {
   light.shadow.camera.near = 0.1;
   light.shadow.camera.far = 25;
 
-  let cubeArr = [];
+  let cubeArrOne = [];
+  let cubeArrTwo = [];
+  let cubeArrThree = [];
+  let cubeArrFour = [];
 
-  for (let i = 0; i < 10; i++) {
-    let geometry = new BoxGeometry(1, 1, 1);
-    cubeArr.push(new Mesh(geometry, material));
+  camera.position.z = 20;
+
+  for (let i = 0; i < 7; i++) {
+    const geometry = new BoxGeometry(1, 1, 1);
+    const material = new MeshPhongMaterial({ color: 0x5555ff });
+    cubeArrOne.push(new Mesh(geometry, material));
+    cubeArrTwo.push(new Mesh(geometry, material));
+    cubeArrThree.push(new Mesh(geometry, material));
+    cubeArrFour.push(new Mesh(geometry, material));
   }
 
-  for (let i = 0; i < cubeArr.length; i++) {
-    cubeArr[i].position.set(i, 0, i);
-    group.add(cubeArr[i]);
+  for (let i = 0; i < cubeArrOne.length; i++) {
+    cubeArrOne[i].position.x = i;
+    cubeArrOne[i].position.y = i + 0.3;
+    cubeArrOne[i].position.z = i + 3;
+    group.add(cubeArrOne[i]);
   }
+
+  for (let i = 1; i < cubeArrTwo.length; i++) {
+    cubeArrTwo[i].position.x = i;
+    cubeArrTwo[i].position.y = -i + 0.3;
+    cubeArrTwo[i].position.z = i + 3;
+
+    cubeArrThree[i].position.x = -i;
+    cubeArrThree[i].position.y = -i;
+    cubeArrThree[i].position.z = i + 3;
+
+    cubeArrFour[i].position.x = -i;
+    cubeArrFour[i].position.y = i + 0.3;
+    cubeArrFour[i].position.z = i + 3;
+
+    group.add(cubeArrTwo[i]);
+    group.add(cubeArrThree[i]);
+    group.add(cubeArrFour[i]);
+  }
+
+  scene.background = "white";
 
   scene.add(group);
   scene.add(ambientLight);
   scene.add(light);
-
-  camera.position.z = 30;
 
   const animate = () => {
     requestAnimationFrame(animate);
